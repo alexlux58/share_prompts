@@ -6,16 +6,16 @@ import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Navbar = () => {
-  const isUserLoggenIn = true;
+  const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
-    const setProviders = async () => {
+    const setUpProviders = async () => {
       const response = await getProviders();
       setProviders(response);
     };
-    setProviders();
+    setUpProviders();
   }, []);
 
   return (
@@ -33,7 +33,7 @@ const Navbar = () => {
 
       {/* Desktop navigation */}
       <div className="sm:flex hidden">
-        {isUserLoggenIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
               Create Post
@@ -45,7 +45,7 @@ const Navbar = () => {
 
             <Link href="/profile">
               <Image
-                src="/assets/images/logo.svg"
+                src={session?.user?.image}
                 alt="profile image"
                 width={37}
                 height={37}
@@ -60,9 +60,11 @@ const Navbar = () => {
                 <button
                   type="button"
                   key={provider.name}
-                  onClick={() => provider.id}
+                  onClick={signIn}
                   className="black_btn"
-                ></button>
+                >
+                  Sign In Up
+                </button>
               ))}
           </>
         )}
@@ -70,10 +72,10 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       <div className="sm:hidden flex relative">
-        {isUserLoggenIn ? (
+        {session?.user ? (
           <div className="flex">
             <Image
-              src="/assets/images/logo.svg"
+              src={session?.user?.image}
               alt="profile image"
               width={37}
               height={37}
@@ -91,7 +93,7 @@ const Navbar = () => {
                   My Profile
                 </Link>
                 <Link
-                  href="/create/prompt"
+                  href="/create-prompt"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
