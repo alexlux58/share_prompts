@@ -38,12 +38,13 @@ Share Prompts is a platform where users can create and share writing prompts to 
 
 # TODO
 
-[] Implement Search
+[ ] Implement Search
 \*\* Implemented in the Feed component
 
 - Search by prompt
 - Search by tag
 - Search by username
 
-[] Implement Click on tag
-[] Implement View other profiles
+[ ] Implement Click on tag
+
+[ ] Implement View other profiles
